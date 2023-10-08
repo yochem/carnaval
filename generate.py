@@ -19,12 +19,14 @@ def oeteldonk_themes():
     return dict(splits)
 
 
-def create_ics():
+def create_ics(elfelf=True):
     cal = ics.Calendar()
 
     themes = oeteldonk_themes()
 
-    for cv in carnaval_sunday_dates():
+    cv_dates = carnaval_sunday_dates()
+
+    for cv in cv_dates:
         theme = themes.get(str(cv.year))
         event = ics.Event(
             name=f"Carnaval{': ' + theme if theme else ''}",
@@ -32,11 +34,22 @@ def create_ics():
             location="Oeteldonk",
             duration=dt.timedelta(days=2),
             transparent=True,
-            created=dt.datetime.now(),
             last_modified=dt.datetime.now(),
         )
         event.make_all_day()
         cal.events.add(event)
+
+        if elfelf:
+            event = ics.Event(
+                name="D’n Elfde van d’n Elfde",
+                begin=cv.replace(day=11, month=11),
+                location="Oeteldonk",
+                transparent=True,
+                last_modified=dt.datetime.now(),
+            )
+            event.make_all_day()
+            cal.events.add(event)
+
 
     with open("carnaval.ics", "w", encoding="utf-8") as f:
         f.writelines(cal.serialize_iter())
