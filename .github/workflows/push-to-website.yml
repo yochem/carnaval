@@ -29,7 +29,6 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           path: website
-          repository: yochem/yochem.github.io
           branch: new-calendar
           title: 'Add generated file'
           body: 'This PR adds the generated file.'
