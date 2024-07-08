@@ -29,6 +29,9 @@ jobs:
           cd website
           git remote set-url origin git@github.com:yochem/yochem.github.io.git
 
+      - name: remove extraheader
+        run: |
+          git config --unset-all http.https://github.com/.extraheader
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
