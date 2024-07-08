@@ -24,24 +24,13 @@ jobs:
       - name: Generate file
         run: echo "test" > website/test
 
-      - name: Commit changes
-        run: |
-          cd website
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git checkout -b new-calendar
-          git add test
-          git commit -m 'test: add test file'
-          git push origin new-calendar
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PAT }}
+          path: website
           repository: yochem/yochem.github.io
-          head: new-calendar
+          branch: new-calendar
           title: 'Add generated file'
           body: 'This PR adds the generated file.'
 
