@@ -27,7 +27,7 @@ jobs:
       - name: test gh remote
         run: |
           cd website
-          git remote -v
+          git remote set-url origin git@github.com:yochem/yochem.github.io.git
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
