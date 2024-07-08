@@ -29,7 +29,6 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           path: website
-          branch: new-calendar
           title: 'Add generated file'
           body: 'This PR adds the generated file.'
 
