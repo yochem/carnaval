@@ -5,7 +5,7 @@ import ics
 
 
 def carnaval_sunday_dates() -> list[dt.date]:
-    dates = Path("easter.txt").read_text()
+    dates = Path("data/easter.txt").read_text()
     easter_dates = [dt.date.fromisoformat(line) for line in dates.splitlines()]
 
     # lent means 'vasten'. It is the time between carnaval and Easter
@@ -16,7 +16,7 @@ def carnaval_sunday_dates() -> list[dt.date]:
 
 
 def oeteldonk_themes() -> dict[str, str]:
-    theme_lines = Path("themes.txt").read_text()
+    theme_lines = Path("data/themes.txt").read_text()
 
     # [(year, theme), ...]
     splits = [line.split(" - ") for line in theme_lines.splitlines()]
