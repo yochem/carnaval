@@ -9,5 +9,4 @@ https://www.dr-mikes-math-games-for-kids.com/easter-date-tables.html.
 
 ## Installation / subscribing
 
-Use https://yochem.n/carnaval.ics as URL. For instructions on installation, see
-Google.
+https://yochem.nl/carnaval/
