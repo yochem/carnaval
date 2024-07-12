@@ -48,7 +48,7 @@ def create_ics(elfelf: bool = True) -> None:
         if elfelf:
             event = ics.Event(
                 name="D’n Elfde van d’n Elfde",
-                begin=cv.replace(day=11, month=11),
+                begin=dt.date(cv.year, 11, 11),
                 location="Oeteldonk",
                 transparent=True,
                 last_modified=now,
@@ -57,7 +57,7 @@ def create_ics(elfelf: bool = True) -> None:
             cal.events.add(event)
 
     ics_contents = cal.serialize_iter()
-    Path("carnaval.ics").write_text("".join(ics_contents))
+    Path("calendar.ics").write_text("".join(ics_contents))
 
 
 if __name__ == "__main__":
