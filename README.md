@@ -7,4 +7,4 @@ https://www.dr-mikes-math-games-for-kids.com/easter-date-tables.html.
 
 ## Installation / subscribing
 
-https://yochem.nl/carnaval/
+https://yochem.nl/posts/carnaval/
