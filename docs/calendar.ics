@@ -1,4 +1,6 @@
 BEGIN:VCALENDAR
+X-WR-CALNAME:Carnaval in Oeteldonk - yochem.nl
+X-WR-CALDESC:Carnavaldata (met Oeteldonkse thema's!) direct in je agenda. Meer informatie? https://yochem.nl/posts/carnaval
 VERSION:2.0
 PRODID:ics.py - http://git.io/lLljaA
 BEGIN:VEVENT
