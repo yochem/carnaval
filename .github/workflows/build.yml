@@ -27,7 +27,7 @@ jobs:
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: calendar.ics
+          path: public
 
   deploy:
     needs: build

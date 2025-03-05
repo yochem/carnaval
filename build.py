@@ -60,7 +60,8 @@ def dates():
         cal.events.add(event)
 
     ics_contents = cal.serialize_iter()
-    Path("calendar.ics").write_text("".join(ics_contents))
+    Path("public").mkdir(exist_ok=True)
+    Path("public/calendar.ics").write_text("".join(ics_contents))
 
 
 if __name__ == "__main__":
