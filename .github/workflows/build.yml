@@ -30,7 +30,7 @@ jobs:
           path: calendar.ics
 
   deploy:
-    needs: update-themes
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
