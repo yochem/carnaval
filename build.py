@@ -58,6 +58,19 @@ def dates():
         )
         event.make_all_day()
         cal.events.add(event)
+        
+        kwek = dt.date(cv.year, 11, 11)
+        while kwek.weekday() != 5:
+            kwek += dt.timedelta(days=1)
+
+        event = ics.Event(
+            name="Kwekfestijn",
+            begin=kwek,
+            location="Oeteldonk",
+            transparent=True,
+        )
+        event.make_all_day()
+        cal.events.add(event)
 
     ics_contents = cal.serialize_iter()
     Path("public").mkdir(exist_ok=True)
