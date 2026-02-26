@@ -1,81 +1,58 @@
-import sys
 import datetime as dt
 from pathlib import Path
 
 import ics
-import requests
-from bs4 import BeautifulSoup
 
+dates = Path("data/easter.txt").read_text()
+easter_dates = [dt.datetime.fromisoformat(line) for line in dates.splitlines()]
 
-def scrape_themes():
-    url = "https://www.oeteldonk.org/over-oeteldonk/thema-en-symboliek/thema-oeteldonk"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
+lent_days = dt.timedelta(days=49)
+cv_dates = [easter - lent_days for easter in easter_dates]
 
-    items = soup.select("main ul li")
-    themes = [item.get_text(strip=True) for item in items]
+themefile = Path("data/themes.txt").read_text()
+themes = {}
+for line in themefile.splitlines():
+    year, theme = line.split(' - ')
+    themes[int(year)] = theme
 
-    try:
-        return dict([line.split(" - ") for line in themes])
-    except ValueError:
-        print(
-            "Warning: One or more lines do not match 'year - theme' format:",
-            *themes,
-            sep="\n",
-            file=sys.stderr,
-        )
+cal = ics.Calendar()
 
+for cv in cv_dates:
+    theme = themes.get(cv.year)
+    title = theme and f'Carnaval: {theme}' or 'Carnaval'
+    event = ics.Event(
+        name=title,
+        begin=cv,
+        location="Oeteldonk",
+        duration=dt.timedelta(days=2),
+        transparent=True,
+    )
+    event.make_all_day()
+    cal.events.add(event)
 
-def dates():
-    dates = Path("data/easter.txt").read_text()
-    easter_dates = [dt.date.fromisoformat(line) for line in dates.splitlines()]
+    elfelf = dt.datetime(cv.year, 11, 11)
+    event = ics.Event(
+        name="D’n Elfde van d’n Elfde",
+        begin=elfelf,
+        location="Oeteldonk",
+        transparent=True,
+    )
+    event.make_all_day()
+    cal.events.add(event)
 
-    lent_days = dt.timedelta(days=49)
-    cv_dates = [easter - lent_days for easter in easter_dates]
+    kwek = elfelf
+    while kwek.weekday() != 5:
+        kwek += dt.timedelta(days=1)
 
-    themes = scrape_themes()
+    event = ics.Event(
+        name="Kwekfestijn",
+        begin=kwek,
+        location="Oeteldonk",
+        transparent=True,
+    )
+    event.make_all_day()
+    cal.events.add(event)
 
-    cal = ics.Calendar()
-    two_days = dt.timedelta(days=2)
-
-    for cv in cv_dates:
-        theme = themes.get(str(cv.year))
-        event = ics.Event(
-            name=f"Carnaval{': ' + theme if theme else ''}",
-            begin=cv,
-            location="Oeteldonk",
-            duration=two_days,
-            transparent=True,
-        )
-        event.make_all_day()
-        cal.events.add(event)
-
-        event = ics.Event(
-            name="D’n Elfde van d’n Elfde",
-            begin=dt.date(cv.year, 11, 11),
-            location="Oeteldonk",
-            transparent=True,
-        )
-        event.make_all_day()
-        cal.events.add(event)
-        
-        kwek = dt.date(cv.year, 11, 11)
-        while kwek.weekday() != 5:
-            kwek += dt.timedelta(days=1)
-
-        event = ics.Event(
-            name="Kwekfestijn",
-            begin=kwek,
-            location="Oeteldonk",
-            transparent=True,
-        )
-        event.make_all_day()
-        cal.events.add(event)
-
-    ics_contents = cal.serialize_iter()
-    Path("public").mkdir(exist_ok=True)
-    Path("public/calendar.ics").write_text("".join(ics_contents))
-
-
-if __name__ == "__main__":
-    dates()
+ics_contents = cal.serialize_iter()
+Path("public").mkdir(exist_ok=True)
+Path("public/calendar.ics").write_text("".join(ics_contents))
